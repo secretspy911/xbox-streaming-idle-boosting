@@ -3,13 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 
 namespace XboxStreamingIdleBoosting.Games
 {
     class SuperBomberman
     {
         private const int MoveOneSquareDelay = 225;
-        private const int BombDetonationDelay = 2500;
+        private const int BombDetonationDelay = 3000;
+        private Timer bombTimer;
+        private bool bombPlaced;
+
+        public SuperBomberman()
+        {
+            bombTimer = new Timer(BombExploded);
+        }
+
+        private void BombExploded(object state)
+        {
+            bombPlaced = false;
+            bombTimer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
 
         /// <summary>
         /// The Xbox App must be at the beginning of a new match.
@@ -22,6 +36,7 @@ namespace XboxStreamingIdleBoosting.Games
         /// Start Position: Fixed
         /// Others: Off
         /// Map: The Great Wall (map with the most immuable blocks)
+        /// Players: 1 Player, 1 COM
         /// </summary>
         public void StartIdleBoosting()
         {
@@ -36,11 +51,13 @@ namespace XboxStreamingIdleBoosting.Games
         private void PlaceBomb()
         {
             MainForm.XboxController.PressButton(XboxController.Button.B);
+            bombPlaced = true;
+            bombTimer.Change(BombDetonationDelay, Timeout.Infinite);
         }
 
-        private void WaitForBomb()
+        private void WaitForBombToExplode()
         {
-            Thread.Sleep(BombDetonationDelay);
+            while (bombPlaced) { }
         }
 
         private void PlayMatch()
@@ -50,7 +67,7 @@ namespace XboxStreamingIdleBoosting.Games
             PlaceBomb(); //1,2
             Move(Direction.Left, 1);
             Move(Direction.Down, 1);
-            WaitForBomb(); //2,1 
+            WaitForBombToExplode(); //2,1 
 
             // Bomb 2
             Move(Direction.Up, 1);
@@ -58,7 +75,7 @@ namespace XboxStreamingIdleBoosting.Games
             PlaceBomb(); // 1,3
             Move(Direction.Left, 2);
             Move(Direction.Down, 1);
-            WaitForBomb(); //2,1
+            WaitForBombToExplode(); //2,1
 
             // Bomb 3
             Move(Direction.Up, 1);
@@ -66,41 +83,92 @@ namespace XboxStreamingIdleBoosting.Games
             PlaceBomb(); //1,4
             Move(Direction.Left, 1);
             Move(Direction.Down, 1);
-            WaitForBomb(); //2,3
+            WaitForBombToExplode(); //2,3
 
             // Bomb 4
             PlaceBomb(); //2,3
             Move(Direction.Up, 1);
             Move(Direction.Right, 2);
-            WaitForBomb(); //1,5
+            WaitForBombToExplode(); //1,5
 
             // Bomb 5
             PlaceBomb(); //1,5
             Move(Direction.Left, 2);
             Move(Direction.Down, 2);
-            WaitForBomb(); //3,3
+            WaitForBombToExplode(); //3,3
 
             // Bomb 6
             PlaceBomb(); //3,3
             Move(Direction.Up, 2);
             Move(Direction.Left, 2);
             Move(Direction.Down, 1);
-            WaitForBomb(); //2,1
+            WaitForBombToExplode(); //2,1
 
             // Bomb 7
-            //PlaceBomb(); //2,1
-            //Move(Direction.Down, 1);
-            //Move(Direction.Right, 4);
-            //PlaceBomb();
-            //Move(Direction.Left, 2);
-            //Move(Direction.Down, 2);
-            //WaitForBomb();
+            PlaceBomb(); //2,1
+            Move(Direction.Up, 1);
+            Move(Direction.Right, 2);
+            Move(Direction.Down, 3);
+            WaitForBombToExplode(); // 4,3
 
             // Bomb 8
-            //PlaceBomb();
-            //Move(Direction.Up, 2);
-            //Move(Direction.Left, 1);
-            //WaitForBomb();
+            PlaceBomb(); // 4,3
+            Move(Direction.Up, 1);
+            Move(Direction.Left, 2);
+            WaitForBombToExplode(); // 3,1
+
+            // Bomb 9
+            PlaceBomb(); // 3,1
+            Move(Direction.Right, 2);
+            Move(Direction.Down, 2);
+            WaitForBombToExplode(); // 5,3
+
+            // Bomb 10
+            PlaceBomb(); // 5,3
+            Move(Direction.Right, 2);
+            Move(Direction.Up, 1);
+            WaitForBombToExplode(); // 4,5
+
+            // Bomb 11
+            Move(Direction.Down, 1);
+            Move(Direction.Left, 2);
+            Move(Direction.Down, 2);
+            PlaceBomb(); // 7,3
+            Move(Direction.Right, 2);
+            Move(Direction.Down, 2);
+            WaitForBombToExplode(); // 9,5
+
+            // Bomb 12
+            PlaceBomb(); // 9,5
+            Move(Direction.Up, 2);
+            Move(Direction.Left, 1);
+            Move(Direction.Down, 1);
+            WaitForBombToExplode(); // 8,3
+
+            // Bomb 13
+            PlaceBomb(); // 8,3
+            Move(Direction.Up, 1);
+            Move(Direction.Right, 2);
+            Move(Direction.Down, 3);
+            WaitForBombToExplode(); // 10,5
+
+            // Bomb 14
+            PlaceBomb(); // 10,5
+            Move(Direction.Up, 2);
+            Move(Direction.Left, 2);
+            WaitForBombToExplode(); // 9,3
+
+            // Bomb 15
+            PlaceBomb(); // 9,3
+            Move(Direction.Right, 2);
+            Move(Direction.Down, 2);
+            WaitForBombToExplode(); // 11,5
+
+            // Bomb 16
+            PlaceBomb(); // 11,5
+            Move(Direction.Up, 2);
+            Move(Direction.Left, 2);
+            WaitForBombToExplode(); // 10,5
         }
     }
 }
