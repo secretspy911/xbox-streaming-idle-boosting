@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XboxStreamingIdleBoosting", "XboxStreamingIdleBoosting\XboxStreamingIdleBoosting.vbproj", "{B5433659-E27B-4652-B674-4BC8FDD5CE58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XboxStreamingIdleBoosting", "XboxStreamingIdleBoosting\XboxStreamingIdleBoosting.csproj", "{B81B7083-229C-4B56-81B9-E78CF1C1DE22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B5433659-E27B-4652-B674-4BC8FDD5CE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5433659-E27B-4652-B674-4BC8FDD5CE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5433659-E27B-4652-B674-4BC8FDD5CE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5433659-E27B-4652-B674-4BC8FDD5CE58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B81B7083-229C-4B56-81B9-E78CF1C1DE22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B81B7083-229C-4B56-81B9-E78CF1C1DE22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B81B7083-229C-4B56-81B9-E78CF1C1DE22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B81B7083-229C-4B56-81B9-E78CF1C1DE22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
