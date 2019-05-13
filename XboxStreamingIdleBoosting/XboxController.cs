@@ -31,6 +31,9 @@ namespace XboxStreamingIdleBoosting
 
         private InputSimulator inputSimulator;
 
+        public delegate void InputSentEventHandler(string input);
+        public event InputSentEventHandler InputSent;
+
         public XboxController()
         {
             inputSimulator = new InputSimulator();
@@ -63,6 +66,7 @@ namespace XboxStreamingIdleBoosting
             inputSimulator.Keyboard.KeyDown(keyCode);
             Thread.Sleep(InputDelay);
             inputSimulator.Keyboard.KeyUp(keyCode);
+            InputSent(button.ToString());
         }
 
         public void Move(Direction direction, int time)
@@ -86,8 +90,9 @@ namespace XboxStreamingIdleBoosting
                     throw new NotImplementedException();
             }
 
-            Thread.Sleep(InputDelay);
+            //Thread.Sleep(InputDelay);
             inputSimulator.Keyboard.KeyDown(keyCode);
+            InputSent("Move " + direction);
             Thread.Sleep(time);
             inputSimulator.Keyboard.KeyUp(keyCode);
         }

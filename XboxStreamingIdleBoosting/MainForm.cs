@@ -33,20 +33,17 @@ namespace XboxStreamingIdleBoosting
             ForceMinimize = 11
         }
 
-        private static XboxController xboxController;
-        public static XboxController XboxController
-        {
-            get
-            {
-                if (xboxController == null) 
-                    xboxController = new XboxController();
-                return xboxController;
-            }
-        }
+        private XboxController xboxController;
 
         public MainForm()
         {
             InitializeComponent();
+            xboxController = new XboxController();
+            xboxController.InputSent += (input) => 
+            { 
+                inputsListView.Items.Add(input); 
+                Application.DoEvents();
+            };
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -54,7 +51,7 @@ namespace XboxStreamingIdleBoosting
             if (FocusXboxApp())
             {
                 System.Threading.Thread.Sleep(500); // Let time for the application to focus and be ready to receive inputs
-                SuperBomberman game = new SuperBomberman();
+                SuperBomberman game = new SuperBomberman(xboxController);
                 game.StartIdleBoosting();
             }
         }

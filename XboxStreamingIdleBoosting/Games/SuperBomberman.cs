@@ -11,11 +11,13 @@ namespace XboxStreamingIdleBoosting.Games
     {
         private const int MoveOneSquareDelay = 225;
         private const int BombDetonationDelay = 3000;
+        private XboxController xboxController;
         private Timer bombTimer;
         private bool bombPlaced;
 
-        public SuperBomberman()
+        public SuperBomberman(XboxController xboxController)
         {
+            this.xboxController = xboxController;
             bombTimer = new Timer(BombExploded);
         }
 
@@ -45,12 +47,12 @@ namespace XboxStreamingIdleBoosting.Games
 
         private void Move(Direction direction, int nbSquares)
         {
-            MainForm.XboxController.Move(direction, nbSquares * MoveOneSquareDelay);
+            xboxController.Move(direction, nbSquares * MoveOneSquareDelay);
         }
 
         private void PlaceBomb()
         {
-            MainForm.XboxController.PressButton(XboxController.Button.B);
+            xboxController.PressButton(XboxController.Button.B);
             bombPlaced = true;
             bombTimer.Change(BombDetonationDelay, Timeout.Infinite);
         }
@@ -168,7 +170,8 @@ namespace XboxStreamingIdleBoosting.Games
             PlaceBomb(); // 11,5
             Move(Direction.Up, 2);
             Move(Direction.Left, 2);
-            WaitForBombToExplode(); // 10,5
+            Move(Direction.Down, 1);
+            WaitForBombToExplode(); // 10,3
         }
     }
 }
