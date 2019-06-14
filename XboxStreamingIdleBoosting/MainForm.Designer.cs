@@ -46,12 +46,15 @@
             // 
             // inputsListView
             // 
+            this.inputsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.inputsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Input});
             this.inputsListView.GridLines = true;
             this.inputsListView.Location = new System.Drawing.Point(13, 42);
             this.inputsListView.Name = "inputsListView";
-            this.inputsListView.Size = new System.Drawing.Size(233, 376);
+            this.inputsListView.Size = new System.Drawing.Size(293, 376);
             this.inputsListView.TabIndex = 2;
             this.inputsListView.UseCompatibleStateImageBehavior = false;
             this.inputsListView.View = System.Windows.Forms.View.List;
@@ -64,7 +67,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(264, 430);
+            this.ClientSize = new System.Drawing.Size(318, 430);
             this.Controls.Add(this.inputsListView);
             this.Controls.Add(this.startButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

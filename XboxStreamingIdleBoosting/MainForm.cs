@@ -58,7 +58,7 @@ namespace XboxStreamingIdleBoosting
 
         private Boolean FocusXboxApp()
         {
-            IntPtr handle = FindWindowA(null, "Xbox");
+            IntPtr handle = FindWindowA(null, "Compagnon de la console Xbox");
             if (handle.ToInt32() == 0)
             {
                 MessageBox.Show("The Xbox app is not started.");

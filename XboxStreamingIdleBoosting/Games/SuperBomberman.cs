@@ -10,6 +10,8 @@ namespace XboxStreamingIdleBoosting.Games
     class SuperBomberman
     {
         private const int MoveOneSquareDelay = 225;
+        private const int MinimumMoveOneSquareDelay = 100;
+        private const int MatchEndDelay = 10000;
         private const int BombDetonationDelay = 3000;
         private XboxController xboxController;
         private Timer bombTimer;
@@ -42,12 +44,18 @@ namespace XboxStreamingIdleBoosting.Games
         /// </summary>
         public void StartIdleBoosting()
         {
-            PlayMatch();
+            //PlayMatch();
+            PlaceBomb();
+            WaitForBombToExplode();
+            WaitForNextMatch();
+            PlaceBomb();
+            WaitForBombToExplode();
         }
 
         private void Move(Direction direction, int nbSquares)
         {
-            xboxController.Move(direction, nbSquares * MoveOneSquareDelay);
+            xboxController.Move(direction, 1 * MinimumMoveOneSquareDelay);
+            xboxController.Move(direction, (nbSquares - 1) * MoveOneSquareDelay);
         }
 
         private void PlaceBomb()
@@ -60,6 +68,11 @@ namespace XboxStreamingIdleBoosting.Games
         private void WaitForBombToExplode()
         {
             while (bombPlaced) { }
+        }
+
+        private void WaitForNextMatch()
+        {
+            Thread.Sleep(MatchEndDelay);
         }
 
         private void PlayMatch()
@@ -143,7 +156,7 @@ namespace XboxStreamingIdleBoosting.Games
             // Bomb 12
             PlaceBomb(); // 9,5
             Move(Direction.Up, 2);
-            Move(Direction.Left, 1);
+            Move(Direction.Left, 2);
             Move(Direction.Down, 1);
             WaitForBombToExplode(); // 8,3
 
@@ -156,7 +169,7 @@ namespace XboxStreamingIdleBoosting.Games
 
             // Bomb 14
             PlaceBomb(); // 10,5
-            Move(Direction.Up, 2);
+            Move(Direction.Up, 1);
             Move(Direction.Left, 2);
             WaitForBombToExplode(); // 9,3
 
@@ -172,6 +185,37 @@ namespace XboxStreamingIdleBoosting.Games
             Move(Direction.Left, 2);
             Move(Direction.Down, 1);
             WaitForBombToExplode(); // 10,3
+
+            // Bomb 17
+            PlaceBomb(); // 10,3
+            Move(Direction.Up, 1);
+            Move(Direction.Left, 1);
+            WaitForBombToExplode(); // 9,2
+
+            // Bomb 18
+            PlaceBomb(); // 9,2
+            Move(Direction.Right, 1);
+            Move(Direction.Up, 2);
+            Move(Direction.Left, 1);
+            WaitForBombToExplode(); // 7,2
+
+            // Bomb 19
+            PlaceBomb(); // 7,2
+            Move(Direction.Right, 1);
+            Move(Direction.Down, 2);
+            Move(Direction.Left, 2);
+            WaitForBombToExplode(); // 9,1
+
+            // Bomb 20
+            PlaceBomb(); // 9,1
+            Move(Direction.Right, 2);
+            Move(Direction.Up, 2);
+            Move(Direction.Left, 2);
+            WaitForBombToExplode(); // 7,1
+
+            // Bomb 21
+            PlaceBomb(); // 7,1
+            // Let self-destruct
         }
     }
 }
