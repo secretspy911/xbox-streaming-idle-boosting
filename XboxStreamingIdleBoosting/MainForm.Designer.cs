@@ -30,8 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.startButton = new System.Windows.Forms.Button();
-            this.inputsListView = new System.Windows.Forms.ListView();
-            this.Input = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.logTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // startButton
@@ -44,44 +43,33 @@
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
-            // inputsListView
+            // logTextBox
             // 
-            this.inputsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.inputsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Input});
-            this.inputsListView.GridLines = true;
-            this.inputsListView.Location = new System.Drawing.Point(13, 42);
-            this.inputsListView.Name = "inputsListView";
-            this.inputsListView.Size = new System.Drawing.Size(293, 376);
-            this.inputsListView.TabIndex = 2;
-            this.inputsListView.UseCompatibleStateImageBehavior = false;
-            this.inputsListView.View = System.Windows.Forms.View.List;
-            // 
-            // Input
-            // 
-            this.Input.Width = 0;
+            this.logTextBox.Location = new System.Drawing.Point(12, 41);
+            this.logTextBox.Multiline = true;
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.Size = new System.Drawing.Size(294, 377);
+            this.logTextBox.TabIndex = 2;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(318, 430);
-            this.Controls.Add(this.inputsListView);
+            this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.startButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Xbox One Idle Boosting";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         internal System.Windows.Forms.Button startButton;
-        private System.Windows.Forms.ListView inputsListView;
-        private System.Windows.Forms.ColumnHeader Input;
+        private System.Windows.Forms.TextBox logTextBox;
     }
 }
 

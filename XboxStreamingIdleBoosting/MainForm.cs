@@ -39,7 +39,7 @@ namespace XboxStreamingIdleBoosting
         {
             InitializeComponent();
             xboxController = new XboxController();
-            xboxController.InputSent += AddTextToListView;
+            xboxController.InputSent += AddLog;
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -48,7 +48,7 @@ namespace XboxStreamingIdleBoosting
             {
                 System.Threading.Thread.Sleep(500); // Let time for the application to focus and be ready to receive inputs
                 SuperBomberman game = new SuperBomberman(xboxController);
-                game.Log += AddTextToListView;
+                game.Log += AddLog;
                 game.StartIdleBoosting();
             }
         }
@@ -69,9 +69,13 @@ namespace XboxStreamingIdleBoosting
             }
         }
 
-        private void AddTextToListView(string text)
+        private void AddLog(string text)
         {
-            inputsListView.Items.Add(text);
+            if (!string.IsNullOrEmpty(logTextBox.Text))
+            {
+                logTextBox.Text += Environment.NewLine;
+            }
+            logTextBox.Text += text;
             Application.DoEvents();
         }
     }
