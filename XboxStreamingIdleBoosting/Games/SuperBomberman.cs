@@ -12,6 +12,7 @@ namespace XboxStreamingIdleBoosting.Games
         private const int MoveOneSquareDelay = 225;
         private const int SetStartDelay = 10000;
         private const int BombDetonationDelay = 3000;
+        private const int PlasmaBombDetonationDelay = 1500;
         private const int MenuNavigationDelay = 1000;
         private const int BattleEndToMenuDelay = 8000;
         private const int NumberOfSets = 5;
@@ -19,13 +20,16 @@ namespace XboxStreamingIdleBoosting.Games
         private XboxController xboxController;
         private Timer bombTimer;
         private bool bombPlaced;
+        private List<Movement> lastMovements = new List<Movement>();
+        private bool usePlasmaBombs;
 
         public delegate void LogEventHandler(string message);
         public event LogEventHandler Log;
 
-        public SuperBomberman(XboxController xboxController)
+        public SuperBomberman(XboxController xboxController, bool usePlasmaBombs)
         {
             this.xboxController = xboxController;
+            this.usePlasmaBombs = usePlasmaBombs;
             bombTimer = new Timer(BombExploded);
         }
 
@@ -70,13 +74,57 @@ namespace XboxStreamingIdleBoosting.Games
         private void Move(Direction direction, int nbSquares)
         {
             xboxController.Move(direction, nbSquares - 1 * MoveOneSquareDelay);
+            lastMovements.Add(new Movement(direction, nbSquares));
+        }
+
+        private void RevertLastMovements()
+        {
+            for (int i = lastMovements.Count; i == 1; i--)
+            {
+                Movement movement = lastMovements[i];
+                lastMovements.Remove(movement);
+                Move(GetOppositeDirection(movement.Direction), movement.NbSquares);
+            }
+        }
+
+        private Direction GetOppositeDirection(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Down:
+                    return Direction.Up;
+                case Direction.Up:
+                    return Direction.Down;
+                case Direction.Right:
+                    return Direction.Left;
+                case Direction.Left:
+                    return Direction.Right;
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         private void PlaceBomb()
         {
-            xboxController.PressButton(XboxController.Button.B);
+            PlaceBomb(false);
+        }
+
+        private void PlaceBomb(bool clearLastMovements)
+        {
+            if (usePlasmaBombs)
+                xboxController.PressButton(XboxController.Button.A);
+            else
+                xboxController.PressButton(XboxController.Button.B);
+
+            if (clearLastMovements) lastMovements.Clear();
             bombPlaced = true;
-            bombTimer.Change(BombDetonationDelay, Timeout.Infinite);
+
+            int bombDelay;
+            if (usePlasmaBombs)
+                bombDelay = PlasmaBombDetonationDelay;
+            else
+                bombDelay = BombDetonationDelay;
+            bombTimer.Change(bombDelay, Timeout.Infinite);
         }
 
         private void WaitForBombToExplode()
@@ -103,12 +151,16 @@ namespace XboxStreamingIdleBoosting.Games
             // Moving the character is too unreliable. It can pick up speed powerups which makes impossible to accurately calculate moving delays.
             // So, to be safe and minimize to the minimum the risk of losing sync with the game, we go for a self-destruct bomb right at the start.
             // It's far from being optimal, but at least it's stable.
-            //// Bomb 1
+            // Bomb 1
             //Move(Direction.Right, 1);
-            //PlaceBomb(); //1,2
+            //PlaceBomb(true); //1,2
             //Move(Direction.Left, 1);
             //Move(Direction.Down, 1);
             //WaitForBombToExplode(); //2,1 
+            //RevertLastMovements();
+            //PlaceBomb(); //1,2
+            //RevertLastMovements();
+            //WaitForBombToExplode(); // 2,1
 
             //    // Bomb 2
             //    Move(Direction.Up, 1);
@@ -242,6 +294,21 @@ namespace XboxStreamingIdleBoosting.Games
             //    // Bomb 21
             //    PlaceBomb(); // 7,1
             //    // Let self-destruct/
+        }
+
+        private class Movement
+        {
+            private Direction direction;
+            private int nbSquares;
+
+            public Direction Direction { get { return direction; } }
+            public int NbSquares { get { return nbSquares; } }
+
+            public Movement(Direction direction, int nbSquares)
+            {
+                this.direction = direction;
+                this.nbSquares = nbSquares;
+            }
         }
     }
 }

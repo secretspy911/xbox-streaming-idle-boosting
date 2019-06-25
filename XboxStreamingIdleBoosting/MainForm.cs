@@ -39,7 +39,7 @@ namespace XboxStreamingIdleBoosting
         {
             InitializeComponent();
             xboxController = new XboxController();
-            xboxController.InputSent += AddLog;
+            if (controllerLogsCheckBox.Checked) xboxController.InputSent += AddLog;
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -47,7 +47,7 @@ namespace XboxStreamingIdleBoosting
             if (FocusXboxApp())
             {
                 System.Threading.Thread.Sleep(500); // Let time for the application to focus and be ready to receive inputs
-                SuperBomberman game = new SuperBomberman(xboxController);
+                SuperBomberman game = new SuperBomberman(xboxController, true);
                 game.Log += AddLog;
                 game.StartIdleBoosting();
             }

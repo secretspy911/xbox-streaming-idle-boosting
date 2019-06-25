@@ -66,7 +66,7 @@ namespace XboxStreamingIdleBoosting
             inputSimulator.Keyboard.KeyDown(keyCode);
             Thread.Sleep(InputDelay);
             inputSimulator.Keyboard.KeyUp(keyCode);
-            InputSent(button.ToString());
+            //InputSent(button.ToString());
         }
 
         public void Move(Direction direction, int time)
@@ -92,7 +92,7 @@ namespace XboxStreamingIdleBoosting
 
             //Thread.Sleep(InputDelay);
             inputSimulator.Keyboard.KeyDown(keyCode);
-            InputSent("Move " + direction);
+            InputSent(string.Format("Move {0} for {1} ms", direction, time));
             Thread.Sleep(time);
             inputSimulator.Keyboard.KeyUp(keyCode);
         }

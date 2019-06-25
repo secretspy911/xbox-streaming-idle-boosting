@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.startButton = new System.Windows.Forms.Button();
             this.logTextBox = new System.Windows.Forms.TextBox();
+            this.controllerLogsCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // startButton
@@ -51,11 +52,22 @@
             this.logTextBox.Size = new System.Drawing.Size(294, 377);
             this.logTextBox.TabIndex = 2;
             // 
+            // controllerLogsCheckBox
+            // 
+            this.controllerLogsCheckBox.AutoSize = true;
+            this.controllerLogsCheckBox.Location = new System.Drawing.Point(214, 16);
+            this.controllerLogsCheckBox.Name = "controllerLogsCheckBox";
+            this.controllerLogsCheckBox.Size = new System.Drawing.Size(92, 17);
+            this.controllerLogsCheckBox.TabIndex = 3;
+            this.controllerLogsCheckBox.Text = "Controller logs";
+            this.controllerLogsCheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(318, 430);
+            this.Controls.Add(this.controllerLogsCheckBox);
             this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.startButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -70,6 +82,7 @@
 
         internal System.Windows.Forms.Button startButton;
         private System.Windows.Forms.TextBox logTextBox;
+        private System.Windows.Forms.CheckBox controllerLogsCheckBox;
     }
 }
 
