@@ -53,7 +53,7 @@ namespace XboxStreamingIdleBoosting.Games
         /// </summary>
         public void StartIdleBoosting()
         {
-            Log("Boosting started at: " + DateTime.Now.ToShortTimeString());
+            DateTime startTime = DateTime.Now;
             int blockDestroyedCount = 0;
             while (true)
             {
@@ -66,7 +66,7 @@ namespace XboxStreamingIdleBoosting.Games
                         Thread.Sleep(SetStartDelay);
                     }
                 }
-                Log("Blocks destroyed: " + blockDestroyedCount);
+                Log("Boosting started at: " + startTime.ToShortTimeString() + "." + Environment.NewLine + "Blocks destroyed: " + blockDestroyedCount + "." + (blockDestroyedCount / ((DateTime.Now - startTime).TotalSeconds / 60)) + " bombs/min.");
                 NavigateMenuForNextBattle();
             }
         }

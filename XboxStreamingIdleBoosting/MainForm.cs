@@ -39,7 +39,8 @@ namespace XboxStreamingIdleBoosting
         {
             InitializeComponent();
             xboxController = new XboxController();
-            if (controllerLogsCheckBox.Checked) xboxController.InputSent += AddLog;
+            if (controllerLogsCheckBox.Checked)
+                xboxController.InputSent += (x) => { AddLog(x, false); };
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -48,7 +49,8 @@ namespace XboxStreamingIdleBoosting
             {
                 System.Threading.Thread.Sleep(500); // Let time for the application to focus and be ready to receive inputs
                 SuperBomberman game = new SuperBomberman(xboxController, true);
-                game.Log += AddLog;
+                game.Log += (x) => { AddLog(x, true); };
+
                 game.StartIdleBoosting();
             }
         }
@@ -69,13 +71,21 @@ namespace XboxStreamingIdleBoosting
             }
         }
 
-        private void AddLog(string text)
+        private void AddLog(string text, bool overwrite)
         {
-            if (!string.IsNullOrEmpty(logTextBox.Text))
+            if (overwrite)
             {
-                logTextBox.Text += Environment.NewLine;
+                logTextBox.Text = text;
             }
-            logTextBox.Text += text;
+            else
+            {
+                if (!string.IsNullOrEmpty(logTextBox.Text))
+                {
+                    logTextBox.Text += Environment.NewLine;
+                }
+                logTextBox.Text += text;
+            }
+          
             Application.DoEvents();
         }
     }

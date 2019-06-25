@@ -66,7 +66,8 @@ namespace XboxStreamingIdleBoosting
             inputSimulator.Keyboard.KeyDown(keyCode);
             Thread.Sleep(InputDelay);
             inputSimulator.Keyboard.KeyUp(keyCode);
-            //InputSent(button.ToString());
+
+            InputSent?.Invoke(button.ToString());
         }
 
         public void Move(Direction direction, int time)
@@ -81,7 +82,7 @@ namespace XboxStreamingIdleBoosting
                     keyCode = VirtualKeyCode.DOWN;
                     break;
                 case Direction.Left:
-                     keyCode = VirtualKeyCode.LEFT;
+                    keyCode = VirtualKeyCode.LEFT;
                     break;
                 case Direction.Right:
                     keyCode = VirtualKeyCode.RIGHT;
