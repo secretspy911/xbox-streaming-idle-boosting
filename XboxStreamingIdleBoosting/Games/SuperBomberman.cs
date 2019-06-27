@@ -185,15 +185,15 @@ namespace XboxStreamingIdleBoosting.Games
             //WaitForBombToExplode();
 
             // Bomb 1
-            PlaceNextBomb(new[] { new Movement(Direction.Right, 1) }, 
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 1) },
                 new[] { new Movement(Direction.Left, 1), new Movement(Direction.Down, 1) });
 
             // Bomb 2
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2) }, 
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2) },
                 new[] { new Movement(Direction.Left, 2), new Movement(Direction.Down, 1) });
 
             // Bomb 3
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 3) }, 
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 3) },
                 new[] { new Movement(Direction.Left, 1), new Movement(Direction.Down, 1) });
 
             // Bomb 4
@@ -209,7 +209,7 @@ namespace XboxStreamingIdleBoosting.Games
             PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2), new Movement(Direction.Down, 3) });
 
             // Bomb 8
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 2), new Movement(Direction.Up, 1), new Movement(Direction.Left, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 2) });
 
             // Bomb 9
             PlaceNextBomb(new[] { new Movement(Direction.Right, 2), new Movement(Direction.Down, 2) });
@@ -218,68 +218,39 @@ namespace XboxStreamingIdleBoosting.Games
             PlaceNextBomb(new[] { new Movement(Direction.Right, 2), new Movement(Direction.Up, 1) });
 
             // Bomb 11
-            PlaceNextBomb(new[] { new Movement(Direction.Down, 1), new Movement(Direction.Left, 2), new Movement(Direction.Down, 2) }, 
-                new[] {new Movement(Direction.Right, 2), new Movement(Direction.Down, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Down, 1), new Movement(Direction.Left, 2), new Movement(Direction.Down, 2) },
+                new[] { new Movement(Direction.Right, 2), new Movement(Direction.Down, 2) });
 
             // Bomb 12
             PlaceNextBomb(new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 2), new Movement(Direction.Down, 1) });
 
-            //    // Bomb 13
-            //    PlaceBomb(); // 8,3
-            //    Move(Direction.Up, 1);
-            //    Move(Direction.Right, 2);
-            //    Move(Direction.Down, 3);
-            //    WaitForBombToExplode(); // 10,5
+            // Bomb 13
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2), new Movement(Direction.Down, 3) });
 
-            //    // Bomb 14
-            //    PlaceBomb(); // 10,5
-            //    Move(Direction.Up, 1);
-            //    Move(Direction.Left, 2);
-            //    WaitForBombToExplode(); // 9,3
+            // Bomb 14
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 2) });
 
-            //    // Bomb 15
-            //    PlaceBomb(); // 9,3
-            //    Move(Direction.Right, 2);
-            //    Move(Direction.Down, 2);
-            //    WaitForBombToExplode(); // 11,5
+            // Bomb 15
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 2), new Movement(Direction.Down, 2) });
 
-            //    // Bomb 16
-            //    PlaceBomb(); // 11,5
-            //    Move(Direction.Up, 2);
-            //    Move(Direction.Left, 2);
-            //    Move(Direction.Down, 1);
-            //    WaitForBombToExplode(); // 10,3
+            // Bomb 16
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 2), new Movement(Direction.Down, 1) });
 
-            //    // Bomb 17
-            //    PlaceBomb(); // 10,3
-            //    Move(Direction.Up, 1);
-            //    Move(Direction.Left, 1);
-            //    WaitForBombToExplode(); // 9,2
+            // Bomb 17
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 1) });
 
-            //    // Bomb 18
-            //    PlaceBomb(); // 9,2
-            //    Move(Direction.Right, 1);
-            //    Move(Direction.Up, 2);
-            //    Move(Direction.Left, 1);
-            //    WaitForBombToExplode(); // 7,2
+            // Bomb 18
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 1), new Movement(Direction.Up, 2), new Movement(Direction.Left, 1) });
 
-            //    // Bomb 19
-            //    PlaceBomb(); // 7,2
-            //    Move(Direction.Right, 1);
-            //    Move(Direction.Down, 2);
-            //    Move(Direction.Left, 2);
-            //    WaitForBombToExplode(); // 9,1
+            // Bomb 19
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 1), new Movement(Direction.Down, 2), new Movement(Direction.Left, 2) });
 
-            //    // Bomb 20
-            //    PlaceBomb(); // 9,1
-            //    Move(Direction.Right, 2);
-            //    Move(Direction.Up, 2);
-            //    Move(Direction.Left, 2);
-            //    WaitForBombToExplode(); // 7,1
+            // Bomb 20
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 2), new Movement(Direction.Up, 2), new Movement(Direction.Left, 2) });
 
-            //    // Bomb 21
-            //    PlaceBomb(); // 7,1
-            //    // Let self-destruct/
+            // Bomb 21
+            PlaceBomb(); // 7,1
+            // Let self-destruct/
         }
 
         private class Movement
