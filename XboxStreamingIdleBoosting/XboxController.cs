@@ -91,9 +91,8 @@ namespace XboxStreamingIdleBoosting
                     throw new NotImplementedException();
             }
 
-            //Thread.Sleep(InputDelay);
             inputSimulator.Keyboard.KeyDown(keyCode);
-            InputSent(string.Format("Move {0} for {1} ms", direction, time));
+            InputSent?.Invoke(string.Format("Move {0} for {1} ms", direction, time));
             Thread.Sleep(time);
             inputSimulator.Keyboard.KeyUp(keyCode);
         }

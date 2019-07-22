@@ -2,8 +2,7 @@
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
-using WindowsInput;
-using WindowsInput.Native;
+using System.Threading.Tasks;
 using XboxStreamingIdleBoosting.Games;
 
 namespace XboxStreamingIdleBoosting
@@ -34,25 +33,44 @@ namespace XboxStreamingIdleBoosting
         }
 
         private XboxController xboxController;
+        private Task task;
+        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private CancellationToken cancellationToken;
 
         public MainForm()
         {
             InitializeComponent();
             xboxController = new XboxController();
-            if (controllerLogsCheckBox.Checked)
-                xboxController.InputSent += (x) => { AddLog(x, false); };
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
+            if (controllerLogsCheckBox.Checked)
+                xboxController.InputSent += (x) => { AddLog(x, false); };
+
             if (FocusXboxApp())
             {
                 System.Threading.Thread.Sleep(500); // Let time for the application to focus and be ready to receive inputs
                 SuperBomberman game = new SuperBomberman(xboxController, true);
-                game.Log += (x) => { AddLog(x, true); };
+                game.Log += (x) => { AddLog(x, false); };
 
-                game.StartIdleBoosting();
+                task = Task.Factory.StartNew(() => game.StartBlockBoosting(), cancellationToken);
             }
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            //cancellationToken
         }
 
         private Boolean FocusXboxApp()
@@ -73,20 +91,25 @@ namespace XboxStreamingIdleBoosting
 
         private void AddLog(string text, bool overwrite)
         {
-            if (overwrite)
+            if (InvokeRequired)
             {
-                logTextBox.Text = text;
+                Invoke(new Action(() => { AddLog(text, overwrite); }));
             }
             else
             {
-                if (!string.IsNullOrEmpty(logTextBox.Text))
+                if (overwrite)
                 {
-                    logTextBox.Text += Environment.NewLine;
+                    logTextBox.Text = text;
                 }
-                logTextBox.Text += text;
-            }
-          
-            Application.DoEvents();
+                else
+                {
+                    if (!string.IsNullOrEmpty(logTextBox.Text))
+                    {
+                        logTextBox.AppendText(Environment.NewLine);
+                    }
+                    logTextBox.AppendText(text);
+                }
+            }          
         }
     }
 }

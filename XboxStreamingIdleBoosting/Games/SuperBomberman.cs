@@ -13,15 +13,17 @@ namespace XboxStreamingIdleBoosting.Games
         private const int SetStartDelay = 10000;
         private const int BombDetonationDelay = 3000;
         private const int PlasmaBombDetonationDelay = 1500;
-        private const int MenuNavigationDelay = 1000;
-        private const int BattleEndToMenuDelay = 8000;
-        private const int NumberOfSets = 5;
+        private const int MenuNavigationDelay = 500;
+        private const int BattleEndToMenuDelay = 5000;
+        private const int NumberOfSets = 1;
 
         private XboxController xboxController;
         private Timer bombTimer;
         private bool bombPlaced;
         private List<Movement> lastMovements = new List<Movement>();
         private bool usePlasmaBombs;
+        private int blocksDestroyedCount;
+        private int bombPlacedCount;
 
         public delegate void LogEventHandler(string message);
         public event LogEventHandler Log;
@@ -48,38 +50,40 @@ namespace XboxStreamingIdleBoosting.Games
         /// Sets: 5
         /// Time: 3
         /// Start Position: Fixed
+        /// Skulls : Off
+        /// Special abilities : On
         /// Map: The Great Wall (map with the most immuable blocks)
-        /// Players: 1 Player, 1 COM
+        /// Players: 2 Player
         /// </summary>
-        public void StartIdleBoosting()
+        public void StartBlockBoosting()
         {
             DateTime startTime = DateTime.Now;
-            int blockDestroyedCount = 0;
             while (true)
             {
                 for (int i = 1; i <= NumberOfSets; i++)
                 {
+                    Log("Start set.");
                     PlaySet();
-                    blockDestroyedCount += 2;
+                    blocksDestroyedCount += 26;
                     if (i < NumberOfSets)
                     {
                         Thread.Sleep(SetStartDelay);
                     }
                 }
-                Log("Boosting started at: " + startTime.ToShortTimeString() + "." + Environment.NewLine + "Blocks destroyed: " + blockDestroyedCount + "." + (blockDestroyedCount / ((DateTime.Now - startTime).TotalSeconds / 60)) + " bombs/min.");
+                Log("Boosting started at: " + startTime.ToShortTimeString() + "." + Environment.NewLine + "Blocks destroyed: " + blocksDestroyedCount + ". " + Math.Round(blocksDestroyedCount / ((DateTime.Now - startTime).TotalSeconds / 60), 2) + " blocks/min.");
                 NavigateMenuForNextBattle();
             }
         }
 
         private void Move(Direction direction, int nbSquares)
         {
-            xboxController.Move(direction, nbSquares - 1 * MoveOneSquareDelay);
+            xboxController.Move(direction, nbSquares * MoveOneSquareDelay);
             lastMovements.Add(new Movement(direction, nbSquares));
         }
 
         private void RevertLastMovements()
         {
-            for (int i = lastMovements.Count; i == 1; i--)
+            for (int i = lastMovements.Count - 1; i >= 0; i--)
             {
                 Movement movement = lastMovements[i];
                 lastMovements.Remove(movement);
@@ -138,10 +142,19 @@ namespace XboxStreamingIdleBoosting.Games
         private void NavigateMenuForNextBattle()
         {
             Thread.Sleep(BattleEndToMenuDelay);
+            Log("Battle end");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
+            Log("Menu 1");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
+            Log("Menu 2");
+            xboxController.PressButton(XboxController.Button.A);
+            Thread.Sleep(MenuNavigationDelay);
+            Log("Gem win");
+            xboxController.PressButton(XboxController.Button.A);
+            Thread.Sleep(MenuNavigationDelay);
+            Log("Battle again");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(SetStartDelay);
         }
@@ -162,6 +175,8 @@ namespace XboxStreamingIdleBoosting.Games
             }
 
             PlaceBomb();
+            bombPlacedCount += 1;
+            Log("Bomb " + bombPlacedCount);
             lastMovements.Clear();
 
             if (movesAwayFromBomb != null)
@@ -178,6 +193,7 @@ namespace XboxStreamingIdleBoosting.Games
 
         private void PlaySet()
         {
+            bombPlacedCount = 0;
             // Moving the character is too unreliable. It can pick up speed powerups which makes impossible to accurately calculate moving delays.
             // So, to be safe and minimize to the minimum the risk of losing sync with the game, we go for a self-destruct bomb right at the start.
             // It's far from being optimal, but at least it's stable.
@@ -185,72 +201,94 @@ namespace XboxStreamingIdleBoosting.Games
             //WaitForBombToExplode();
 
             // Bomb 1
-            PlaceNextBomb(new[] { new Movement(Direction.Right, 1) },
-                new[] { new Movement(Direction.Left, 1), new Movement(Direction.Down, 1) });
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 1) }, //1,2
+                new[] { new Movement(Direction.Left, 1), new Movement(Direction.Down, 1) }); //2,1
 
             // Bomb 2
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2) },
-                new[] { new Movement(Direction.Left, 2), new Movement(Direction.Down, 1) });
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2) }, //1,3
+                new[] { new Movement(Direction.Left, 2), new Movement(Direction.Down, 1) }); //2,1
 
             // Bomb 3
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 3) },
-                new[] { new Movement(Direction.Left, 1), new Movement(Direction.Down, 1) });
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 3) }, //1,4
+                new[] { new Movement(Direction.Left, 3), new Movement(Direction.Down, 1) }); //2,1
 
             // Bomb 4
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2), new Movement(Direction.Down, 1) }, //2,3
+                new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 1) }); //1,4
 
             // Bomb 5
-            PlaceNextBomb(new[] { new Movement(Direction.Left, 2), new Movement(Direction.Down, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 1) }, //1,5
+                new[] { new Movement(Direction.Left, 2), new Movement(Direction.Down, 1) }); //2,3
 
             // Bomb 6
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 2), new Movement(Direction.Down, 1) });
+            PlaceNextBomb(new[] { new Movement(Direction.Down, 1) }, //3,3
+                new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 1) }); //1,2
 
             // Bomb 7
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2), new Movement(Direction.Down, 3) });
+            PlaceNextBomb(new[] { new Movement(Direction.Left, 1), new Movement(Direction.Down, 1) }, //2,1
+                new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 1) }); //1,2
 
             // Bomb 8
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 1), new Movement(Direction.Down, 3) }, //4,3
+                new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 1) }); //3,2
 
             // Bomb 9
-            PlaceNextBomb(new[] { new Movement(Direction.Right, 2), new Movement(Direction.Down, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Left, 1) }, //3,1
+                new[] { new Movement(Direction.Right, 2), new Movement(Direction.Down, 1) }); //4,3
 
             // Bomb 10
-            PlaceNextBomb(new[] { new Movement(Direction.Right, 2), new Movement(Direction.Up, 1) });
+            PlaceNextBomb(new[] { new Movement(Direction.Down, 1) }, //5,3
+                new[] { new Movement(Direction.Down, 1), new Movement(Direction.Right, 1) }); //6,4
 
             // Bomb 11
-            PlaceNextBomb(new[] { new Movement(Direction.Down, 1), new Movement(Direction.Left, 2), new Movement(Direction.Down, 2) },
-                new[] { new Movement(Direction.Right, 2), new Movement(Direction.Down, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Left, 1), new Movement(Direction.Down, 1) }, //7,3
+                new[] { new Movement(Direction.Right, 2), new Movement(Direction.Down, 1) }); //8,5
 
             // Bomb 12
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 2), new Movement(Direction.Down, 1) });
+            PlaceNextBomb(new[] { new Movement(Direction.Down, 1) }, //9,5
+                new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 1) }); //7,4
 
             // Bomb 13
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Right, 2), new Movement(Direction.Down, 3) });
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 1), new Movement(Direction.Down, 2), new Movement(Direction.Left, 1) }, //9,5
+                new[] { new Movement(Direction.Right, 1), new Movement(Direction.Down, 1) }); //10,5
 
             // Bomb 14
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 1) }); //9,4
 
             // Bomb 15
-            PlaceNextBomb(new[] { new Movement(Direction.Right, 2), new Movement(Direction.Down, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Left, 1) }, //9,3
+                new[] { new Movement(Direction.Right, 2), new Movement(Direction.Down, 1) }); //10,5
 
             // Bomb 16
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 2), new Movement(Direction.Down, 1) });
+            PlaceNextBomb(new[] { new Movement(Direction.Down, 1) }, //11,5
+                new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 1)}); //9,4
 
             // Bomb 17
-            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 1) });
+            PlaceNextBomb(new[] {new Movement(Direction.Left, 1) , new Movement(Direction.Down, 1) }, //10,3
+                new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 1) }); //9,2
 
             // Bomb 18
-            PlaceNextBomb(new[] { new Movement(Direction.Right, 1), new Movement(Direction.Up, 2), new Movement(Direction.Left, 1) });
+            PlaceNextBomb(new[] { new Movement(Direction.Right, 1), new Movement(Direction.Up, 1) }); //8,3
 
             // Bomb 19
-            PlaceNextBomb(new[] { new Movement(Direction.Right, 1), new Movement(Direction.Down, 2), new Movement(Direction.Left, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 1) }, //7,2
+                new[] { new Movement(Direction.Right, 1), new Movement(Direction.Up, 1)}); //6,3
 
             // Bomb 20
-            PlaceNextBomb(new[] { new Movement(Direction.Right, 2), new Movement(Direction.Up, 2), new Movement(Direction.Left, 2) });
+            PlaceNextBomb(new[] { new Movement(Direction.Down, 1), new Movement(Direction.Left, 2) }, //7,1
+                new[] { new Movement(Direction.Right, 2), new Movement(Direction.Up, 1)}); //6,3
 
             // Bomb 21
-            PlaceBomb(); // 7,1
-            // Let self-destruct/
+            PlaceNextBomb(new[] { new Movement(Direction.Down, 1), new Movement(Direction.Left, 2), new Movement(Direction.Up, 1) }, //6,1
+               new[] { new Movement(Direction.Right, 1)}); //Let self-destruct
+
+            // Bomb 21
+            Move(Direction.Down, 1);
+            Move(Direction.Left, 2);
+            Move(Direction.Up, 1);
+            PlaceBomb();
+            WaitForBombToExplode();
+            // Self-descruct
         }
 
         private class Movement
