@@ -27,6 +27,10 @@ namespace XboxStreamingIdleBoosting
         private const VirtualKeyCode BButtonKey = VirtualKeyCode.VK_K;
         private const VirtualKeyCode XButtonKey = VirtualKeyCode.VK_U;
         private const VirtualKeyCode YButtonKey = VirtualKeyCode.VK_I;
+        private const VirtualKeyCode UpButtonKey = VirtualKeyCode.VK_W;
+        private const VirtualKeyCode DownButtonKey = VirtualKeyCode.VK_S;
+        private const VirtualKeyCode LeftButtonKey = VirtualKeyCode.VK_A;
+        private const VirtualKeyCode RightButtonKey = VirtualKeyCode.VK_D;
         private const int InputDelay = 50; // The xbox games cannot take inputs too quickly.
 
         private InputSimulator inputSimulator;
@@ -76,21 +80,22 @@ namespace XboxStreamingIdleBoosting
             switch (direction)
             {
                 case Direction.Up:
-                    keyCode = VirtualKeyCode.UP;
+                    keyCode = UpButtonKey;
                     break;
                 case Direction.Down:
-                    keyCode = VirtualKeyCode.DOWN;
+                    keyCode = DownButtonKey;
                     break;
                 case Direction.Left:
-                    keyCode = VirtualKeyCode.LEFT;
+                    keyCode = LeftButtonKey;
                     break;
                 case Direction.Right:
-                    keyCode = VirtualKeyCode.RIGHT;
+                    keyCode = RightButtonKey;
                     break;
                 default:
                     throw new NotImplementedException();
             }
 
+            Thread.Sleep(InputDelay);
             inputSimulator.Keyboard.KeyDown(keyCode);
             InputSent?.Invoke(string.Format("Move {0} for {1} ms", direction, time));
             Thread.Sleep(time);

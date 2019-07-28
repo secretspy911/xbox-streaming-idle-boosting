@@ -14,8 +14,9 @@ namespace XboxStreamingIdleBoosting.Games
         private const int BombDetonationDelay = 3000;
         private const int PlasmaBombDetonationDelay = 1500;
         private const int MenuNavigationDelay = 500;
-        private const int BattleEndToMenuDelay = 5000;
-        private const int NumberOfSets = 1;
+        private const int BattleEndToMenuDelay = 8000;
+        private const int MenuToBattleDelay = 10000;
+        private const int NumberOfSets = 5;
 
         private XboxController xboxController;
         private Timer bombTimer;
@@ -141,22 +142,29 @@ namespace XboxStreamingIdleBoosting.Games
 
         private void NavigateMenuForNextBattle()
         {
-            Thread.Sleep(BattleEndToMenuDelay);
             Log("Battle end");
+            Thread.Sleep(BattleEndToMenuDelay);
+
+            Log("Dialog");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
-            Log("Menu 1");
+
+            Log("Stars summary");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
-            Log("Menu 2");
+
+            Log("Gem win 1");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
-            Log("Gem win");
+
+            Log("Gem win 2");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
+
             Log("Battle again");
             xboxController.PressButton(XboxController.Button.A);
-            Thread.Sleep(SetStartDelay);
+
+            Thread.Sleep(MenuToBattleDelay);
         }
 
         private void PlaceNextBomb(Movement[] movesAwayFromBomb)
@@ -261,10 +269,10 @@ namespace XboxStreamingIdleBoosting.Games
 
             // Bomb 16
             PlaceNextBomb(new[] { new Movement(Direction.Down, 1) }, //11,5
-                new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 1)}); //9,4
+                new[] { new Movement(Direction.Up, 2), new Movement(Direction.Left, 1) }); //9,4
 
             // Bomb 17
-            PlaceNextBomb(new[] {new Movement(Direction.Left, 1) , new Movement(Direction.Down, 1) }, //10,3
+            PlaceNextBomb(new[] { new Movement(Direction.Left, 1), new Movement(Direction.Down, 1) }, //10,3
                 new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 1) }); //9,2
 
             // Bomb 18
@@ -272,20 +280,13 @@ namespace XboxStreamingIdleBoosting.Games
 
             // Bomb 19
             PlaceNextBomb(new[] { new Movement(Direction.Up, 1), new Movement(Direction.Left, 1) }, //7,2
-                new[] { new Movement(Direction.Right, 1), new Movement(Direction.Up, 1)}); //6,3
+                new[] { new Movement(Direction.Right, 1), new Movement(Direction.Up, 1) }); //6,3
 
             // Bomb 20
             PlaceNextBomb(new[] { new Movement(Direction.Down, 1), new Movement(Direction.Left, 2) }, //7,1
-                new[] { new Movement(Direction.Right, 2), new Movement(Direction.Up, 1)}); //6,3
+                new[] { new Movement(Direction.Right, 2), new Movement(Direction.Up, 1) }); //6,3
 
             // Bomb 21
-            PlaceNextBomb(new[] { new Movement(Direction.Down, 1), new Movement(Direction.Left, 2), new Movement(Direction.Up, 1) }, //6,1
-               new[] { new Movement(Direction.Right, 1)}); //Let self-destruct
-
-            // Bomb 21
-            Move(Direction.Down, 1);
-            Move(Direction.Left, 2);
-            Move(Direction.Up, 1);
             PlaceBomb();
             WaitForBombToExplode();
             // Self-descruct
