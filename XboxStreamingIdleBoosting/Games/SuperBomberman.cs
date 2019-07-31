@@ -202,11 +202,6 @@ namespace XboxStreamingIdleBoosting.Games
         private void PlaySet()
         {
             bombPlacedCount = 0;
-            // Moving the character is too unreliable. It can pick up speed powerups which makes impossible to accurately calculate moving delays.
-            // So, to be safe and minimize to the minimum the risk of losing sync with the game, we go for a self-destruct bomb right at the start.
-            // It's far from being optimal, but at least it's stable.
-            //PlaceBomb();
-            //WaitForBombToExplode();
 
             // Bomb 1
             PlaceNextBomb(new[] { new Movement(Direction.Right, 1) }, //1,2
