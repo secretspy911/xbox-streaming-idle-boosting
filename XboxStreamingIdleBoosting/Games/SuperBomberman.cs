@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace XboxStreamingIdleBoosting.Games
 {
-    class SuperBomberman
+    class SuperBomberman : XboxGame
     {
         private const int MoveOneSquareDelay = 225;
         private const int SetStartDelay = 10000;
@@ -18,7 +18,6 @@ namespace XboxStreamingIdleBoosting.Games
         private const int MenuToBattleDelay = 10000;
         private const int NumberOfSets = 5;
 
-        private XboxController xboxController;
         private Timer bombTimer;
         private bool bombPlaced;
         private List<Movement> lastMovements = new List<Movement>();
@@ -26,12 +25,8 @@ namespace XboxStreamingIdleBoosting.Games
         private int blocksDestroyedCount;
         private int bombPlacedCount;
 
-        public delegate void LogEventHandler(string message);
-        public event LogEventHandler Log;
-
-        public SuperBomberman(XboxController xboxController, bool usePlasmaBombs)
+        public SuperBomberman(bool logInputs, CancellationToken cancellationToken, bool usePlasmaBombs) : base(logInputs, cancellationToken)
         {
-            this.xboxController = xboxController;
             this.usePlasmaBombs = usePlasmaBombs;
             bombTimer = new Timer(BombExploded);
         }
@@ -56,14 +51,14 @@ namespace XboxStreamingIdleBoosting.Games
         /// Map: The Great Wall (map with the most immuable blocks)
         /// Players: 2 Player
         /// </summary>
-        public void StartBlockBoosting()
+        public override void Start()
         {
             DateTime startTime = DateTime.Now;
             while (true)
             {
                 for (int i = 1; i <= NumberOfSets; i++)
                 {
-                    Log("Start set.");
+                    RaiseLog("Start set.");
                     PlaySet();
                     blocksDestroyedCount += 26;
                     if (i < NumberOfSets)
@@ -71,7 +66,7 @@ namespace XboxStreamingIdleBoosting.Games
                         Thread.Sleep(SetStartDelay);
                     }
                 }
-                Log("Boosting started at: " + startTime.ToShortTimeString() + "." + Environment.NewLine + "Blocks destroyed: " + blocksDestroyedCount + ". " + Math.Round(blocksDestroyedCount / ((DateTime.Now - startTime).TotalSeconds / 60), 2) + " blocks/min.");
+                RaiseLog("Boosting started at: " + startTime.ToShortTimeString() + "." + Environment.NewLine + "Blocks destroyed: " + blocksDestroyedCount + ". " + Math.Round(blocksDestroyedCount / ((DateTime.Now - startTime).TotalSeconds / 60), 2) + " blocks/min.");
                 NavigateMenuForNextBattle();
             }
         }
@@ -142,26 +137,26 @@ namespace XboxStreamingIdleBoosting.Games
 
         private void NavigateMenuForNextBattle()
         {
-            Log("Battle end");
+            RaiseLog("Battle end");
             Thread.Sleep(BattleEndToMenuDelay);
 
-            Log("Dialog");
+            RaiseLog("Dialog");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
 
-            Log("Stars summary");
+            RaiseLog("Stars summary");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
 
-            Log("Gem win 1");
+            RaiseLog("Gem win 1");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
 
-            Log("Gem win 2");
+            RaiseLog("Gem win 2");
             xboxController.PressButton(XboxController.Button.A);
             Thread.Sleep(MenuNavigationDelay);
 
-            Log("Battle again");
+            RaiseLog("Battle again");
             xboxController.PressButton(XboxController.Button.A);
 
             Thread.Sleep(MenuToBattleDelay);
@@ -184,7 +179,7 @@ namespace XboxStreamingIdleBoosting.Games
 
             PlaceBomb();
             bombPlacedCount += 1;
-            Log("Bomb " + bombPlacedCount);
+            RaiseLog("Bomb " + bombPlacedCount);
             lastMovements.Clear();
 
             if (movesAwayFromBomb != null)
@@ -289,16 +284,13 @@ namespace XboxStreamingIdleBoosting.Games
 
         private class Movement
         {
-            private Direction direction;
-            private int nbSquares;
-
-            public Direction Direction { get { return direction; } }
-            public int NbSquares { get { return nbSquares; } }
+            public Direction Direction { get; }
+            public int NbSquares { get; }
 
             public Movement(Direction direction, int nbSquares)
             {
-                this.direction = direction;
-                this.nbSquares = nbSquares;
+                this.Direction = direction;
+                this.NbSquares = nbSquares;
             }
         }
     }

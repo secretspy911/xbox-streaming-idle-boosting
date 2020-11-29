@@ -1,60 +1,79 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using XboxStreamingIdleBoosting.Games;
 
 namespace XboxStreamingIdleBoosting
 {
     public partial class MainForm : Form
     {
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetForegroundWindow(IntPtr hWnd);
-        [DllImport("user32.dll")]
-        public static extern IntPtr ShowWindow(IntPtr hWnd, int nCmdShow);
-        [DllImport("user32.dll")]
-        public static extern IntPtr FindWindowA(string lpClassName, string lpWindowName);
-
-        enum ShowWindowCmd
+        enum ScriptType
         {
-            Hide = 0,
-            ShowNormal = 1,
-            ShowMinimize = 2,
-            ShowMaximize = 3, // Or ActivatedMaximized
-            ShowNoActivate = 4,
-            Show = 5,
-            Minimize = 6,
-            ShowMinNoActive = 7,
-            ShowNA = 8,
-            Restore = 9,
-            ShowDefault = 10,
-            ForceMinimize = 11
+            SuperBomberManRDestroyBlocks = 0,
+            FinalFantasyIXRopeJumping = 1
         }
 
-        private XboxController xboxController;
         private Task task;
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource cancellationTokenSource;
         private CancellationToken cancellationToken;
+        private Stopwatch stopWatch;
+
+        // TODO Make settings configurable by user
+        private const ScriptType scriptType = ScriptType.FinalFantasyIXRopeJumping;
 
         public MainForm()
         {
             InitializeComponent();
-            xboxController = new XboxController();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if (keyLoggerCheckBox.Checked)
+                TerminateKeyLogger();
+
+            base.OnFormClosing(e);
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            if (controllerLogsCheckBox.Checked)
-                xboxController.InputSent += (x) => { AddLog(x, false); };
-
-            if (FocusXboxApp())
+            cancellationTokenSource = new CancellationTokenSource();
+            cancellationToken = cancellationTokenSource.Token;
+            Game game = null;
+            bool logInputs = controllerLogsCheckBox.Checked;
+            switch (scriptType)
             {
-                System.Threading.Thread.Sleep(500); // Let time for the application to focus and be ready to receive inputs
-                SuperBomberman game = new SuperBomberman(xboxController, true);
-                game.Log += (x) => { AddLog(x, false); };
+                case ScriptType.SuperBomberManRDestroyBlocks:
+                    game = new SuperBomberman(logInputs, cancellationToken, true);
+                    break;
+                case ScriptType.FinalFantasyIXRopeJumping:
+                    game = new FinalFantasyIX(logInputs, cancellationToken);
+                    break;
+            }
 
-                task = Task.Factory.StartNew(() => game.StartBlockBoosting(), cancellationToken);
+            if (game != null)
+            {
+                game.Log += (x) => { AddLog(x); };
+
+                string errorMessage = null;
+                if (game.FocusWindow(ref errorMessage))
+                {
+                    Thread.Sleep(1000); // Let time for the application to focus and be ready to receive inputs
+
+                    task = Task.Factory.StartNew(() => game.Start(), cancellationToken);
+                    task.ContinueWith((x) =>
+                    {
+                        if (task.IsCanceled)
+                            AddLog("Script canceled.");
+                        else
+                            AddLog("Script complete.");
+                    });
+                }
+                else
+                {
+                    AddLog(errorMessage);
+                }
             }
         }
 
@@ -70,46 +89,94 @@ namespace XboxStreamingIdleBoosting
 
         private void StopButton_Click(object sender, EventArgs e)
         {
-            //cancellationToken
+            cancellationTokenSource.Cancel();
         }
 
-        private Boolean FocusXboxApp()
+        private void resetKeyLoggerButton_Click(object sender, EventArgs e)
         {
-            IntPtr handle = FindWindowA(null, "Compagnon de la console Xbox");
-            if (handle.ToInt32() == 0)
+            ResetKeyLogger();
+        }
+
+        private void copyToClipboardLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Clipboard.SetText(logTextBox.Text);
+        }
+
+        private void keyLoggerCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            resetKeyLoggerButton.Visible = keyLoggerCheckBox.Checked;
+
+            if (keyLoggerCheckBox.Checked)
             {
-                MessageBox.Show("The Xbox app is not started.");
-                return false;
+                InitializeKeyLogger();
             }
             else
             {
-                ShowWindow(handle, (int)ShowWindowCmd.ShowNormal);
-                SetForegroundWindow(handle);
-                return true;
+                ResetKeyLogger();
+                TerminateKeyLogger();
             }
         }
 
-        private void AddLog(string text, bool overwrite)
+        private void AddLog(string text)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action(() => { AddLog(text, overwrite); }));
+                Invoke(new Action(() => { AddLog(text); }));
             }
             else
             {
-                if (overwrite)
+                if (!string.IsNullOrEmpty(logTextBox.Text))
                 {
-                    logTextBox.Text = text;
+                    logTextBox.AppendText(Environment.NewLine);
+                }
+                logTextBox.AppendText(text);
+            }
+        }
+
+        private void InitializeKeyLogger()
+        {
+            WindowHelper.SetHook((x) =>
+            {
+                //if (!string.IsNullOrEmpty(logTextBox.Text))
+                //{
+                //    logTextBox.Text += Environment.NewLine;
+                //}
+
+                if (stopWatch == null)
+                {
+                    stopWatch = Stopwatch.StartNew();
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(logTextBox.Text))
-                    {
-                        logTextBox.AppendText(Environment.NewLine);
-                    }
-                    logTextBox.AppendText(text);
+                    long elapsedMilliseconds = stopWatch.ElapsedMilliseconds;
+                    //AddLog("Jump(" + elapsedMilliseconds + "); // " + totalKeyCount);
+
+                    stopWatch.Restart();
                 }
-            }          
+
+                //AddLog(totalKeyCount + " - " + x.ToString());
+            });
+        }
+
+        private void TerminateKeyLogger()
+        {
+            WindowHelper.UnhookWindowsHookEx(); // Does nothing
+        }
+
+        private void ResetKeyLogger()
+        {
+            if (stopWatch != null)
+                stopWatch.Stop();
+            stopWatch = null;
+            //averageKeyCount = 0;
+            //averageTotalTime = 0;
+            //totalKeyCount = 0;
+            logTextBox.Clear();
+        }
+
+        private void ClearLogsbutton_Click(object sender, EventArgs e)
+        {
+            logTextBox.Text = string.Empty;
         }
     }
 }
