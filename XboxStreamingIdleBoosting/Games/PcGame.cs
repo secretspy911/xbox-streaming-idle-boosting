@@ -8,8 +8,6 @@ namespace XboxStreamingIdleBoosting.Games
 {
     abstract class PCGame : Game
     {
-        public PCGame(bool logInput, CancellationToken cancellationToken) : base(logInput, cancellationToken) 
-        {
-        }
+        public PCGame(CancellationToken cancellationToken) : base(cancellationToken) { }
     }
 }

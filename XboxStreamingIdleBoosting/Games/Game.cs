@@ -14,20 +14,16 @@ namespace XboxStreamingIdleBoosting.Games
         public abstract void Start();
 
         protected abstract string GameWindowName { get; }
-        protected bool logInputs;
         protected XboxController xboxController;
-        protected CancellationToken cancellationToken;
         public IntPtr hwnd;
 
-        protected Game(bool logInputs, CancellationToken cancellationToken)
-        {
-            this.logInputs = logInputs;
-            this.cancellationToken = cancellationToken;
+        protected CancellationToken cancellationToken;
 
+        protected Game(CancellationToken cancellationToken)
+        {
             // All games will use a controller to wrap keystrokes
             xboxController = new XboxController();
-            if (logInputs)
-                xboxController.InputSent += (x) => { RaiseLog(x); };
+            this.cancellationToken = cancellationToken;
         }
 
         protected void RaiseLog(string message)
@@ -39,6 +35,11 @@ namespace XboxStreamingIdleBoosting.Games
         {
             hwnd = WindowHelper.FocusWindow(GameWindowName, ref errorMessage);
             return hwnd != IntPtr.Zero;
+        }
+
+        public void ActivateInputLogging()
+        {
+            xboxController.InputSent += (x) => { RaiseLog(x); };
         }
     }
 }

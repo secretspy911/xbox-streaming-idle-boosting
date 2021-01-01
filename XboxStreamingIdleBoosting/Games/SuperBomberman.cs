@@ -25,7 +25,7 @@ namespace XboxStreamingIdleBoosting.Games
         private int blocksDestroyedCount;
         private int bombPlacedCount;
 
-        public SuperBomberman(bool logInputs, CancellationToken cancellationToken, bool usePlasmaBombs) : base(logInputs, cancellationToken)
+        public SuperBomberman(bool usePlasmaBombs, CancellationToken cancellationToken) : base(cancellationToken)
         {
             this.usePlasmaBombs = usePlasmaBombs;
             bombTimer = new Timer(BombExploded);

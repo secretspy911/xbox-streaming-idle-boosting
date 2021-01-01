@@ -14,7 +14,7 @@ namespace XboxStreamingIdleBoosting.Games
 
         protected override string GameWindowName => "FINAL FANTASY IX";
 
-        public FinalFantasyIX(bool logInputs, CancellationToken cancellationToken) : base(logInputs, cancellationToken)
+        public FinalFantasyIX(CancellationToken cancellationToken) : base(cancellationToken)
         {
             xboxController.AButtonKey = WindowsInput.Native.VirtualKeyCode.VK_X;
             soundPlayer = new SoundPlayer(@"C:\Users\michaelr\Downloads\E-Mu-Proteus-FX-Wacky-Ride-Cymbal.wav");

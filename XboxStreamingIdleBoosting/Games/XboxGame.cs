@@ -8,7 +8,7 @@ namespace XboxStreamingIdleBoosting.Games
 {
     abstract class XboxGame : Game
     {
-        public XboxGame(bool logInputs, CancellationToken cancellationToken) : base(logInputs, cancellationToken) { }
+        public XboxGame(CancellationToken cancellationToken) : base(cancellationToken) { }
 
         protected override string GameWindowName => "Compagnon de la console Xbox";
     }

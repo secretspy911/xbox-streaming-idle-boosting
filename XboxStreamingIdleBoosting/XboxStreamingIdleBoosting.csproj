@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Games\FinalFantasyIX.cs" />
+    <Compile Include="Games\PhantasyStarOnline2.cs" />
     <Compile Include="Games\XboxGame.cs" />
     <Compile Include="Games\Game.cs" />
     <Compile Include="Games\PCGame.cs" />
