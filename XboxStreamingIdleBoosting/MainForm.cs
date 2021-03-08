@@ -13,7 +13,7 @@ namespace XboxStreamingIdleBoosting
         {
             SuperBomberManRDestroyBlocks = 0,
             FinalFantasyIXRopeJumping = 1,
-            PhantasyStarOnline2Darts = 2
+            PhantasyStarOnline2 = 2
         }
 
         private Task task;
@@ -22,7 +22,7 @@ namespace XboxStreamingIdleBoosting
         private Stopwatch stopWatch;
 
         // TODO Make settings configurable by user
-        private const ScriptType scriptType = ScriptType.PhantasyStarOnline2Darts;
+        private const ScriptType scriptType = ScriptType.PhantasyStarOnline2;
 
         public MainForm()
         {
@@ -51,7 +51,7 @@ namespace XboxStreamingIdleBoosting
                 case ScriptType.FinalFantasyIXRopeJumping:
                     game = new FinalFantasyIX(cancellationToken);                    
                     break;
-                case ScriptType.PhantasyStarOnline2Darts:
+                case ScriptType.PhantasyStarOnline2:
                     game = new PhantasyStarOnline2(cancellationToken);
                     break;
             }

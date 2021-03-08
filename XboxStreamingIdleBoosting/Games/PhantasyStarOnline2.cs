@@ -8,12 +8,28 @@ namespace XboxStreamingIdleBoosting.Games
 
         public override void Start()
         {
-            while(true)
+            StartStoryDialogs();
+        }
+
+        private void StartDartGame()
+        {
+            while (true)
             {
                 xboxController.PressButton(XboxController.Button.B);
                 Thread.Sleep(1000);
                 xboxController.PressButton(XboxController.Button.A);
                 Thread.Sleep(7000);
+
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+        }
+
+        private void StartStoryDialogs()
+        {
+            while (true)
+            {
+                xboxController.PressButton(XboxController.Button.A);
+                Thread.Sleep(10000);
 
                 cancellationToken.ThrowIfCancellationRequested();
             }
