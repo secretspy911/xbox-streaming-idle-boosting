@@ -23,10 +23,10 @@ namespace XboxStreamingIdleBoosting
             Y = 4
         }
 
-        public VirtualKeyCode AButtonKey = VirtualKeyCode.VK_J;
-        public VirtualKeyCode BButtonKey = VirtualKeyCode.VK_K;
-        public VirtualKeyCode XButtonKey = VirtualKeyCode.VK_U;
-        public VirtualKeyCode YButtonKey = VirtualKeyCode.VK_I;
+        public VirtualKeyCode AButtonKey = VirtualKeyCode.VK_F;
+        public VirtualKeyCode BButtonKey = VirtualKeyCode.VK_G;
+        public VirtualKeyCode XButtonKey = VirtualKeyCode.VK_R;
+        public VirtualKeyCode YButtonKey = VirtualKeyCode.VK_T;
         public VirtualKeyCode UpButtonKey = VirtualKeyCode.VK_W;
         public VirtualKeyCode DownButtonKey = VirtualKeyCode.VK_S;
         public VirtualKeyCode LeftButtonKey = VirtualKeyCode.VK_A;
