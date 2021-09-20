@@ -4,10 +4,10 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace XboxStreamingIdleBoosting
+namespace GameBoosterNS
 {
     // https://stackoverflow.com/questions/604410/global-keyboard-capture-in-c-sharp-application
-    static class WindowHelper
+    public static class WindowHelper
     {
         [DllImport("user32.dll")]
         private static extern IntPtr SetForegroundWindow(IntPtr hWnd);
@@ -30,6 +30,13 @@ namespace XboxStreamingIdleBoosting
         private static extern uint GetPixel(IntPtr dc, int x, int y);
         [DllImport("user32.dll")]
         private static extern int ReleaseDC(IntPtr window, IntPtr dc);
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int uFlags);
+
+        private const int HWND_TOPMOST = -1;
+        private const int SWP_NOMOVE = 0x0002;
+        private const int SWP_NOSIZE = 0x0001;
 
         enum ShowWindowCmd
         {
@@ -103,6 +110,12 @@ namespace XboxStreamingIdleBoosting
             uint pixel = GetPixel(dc, x, y);
             ReleaseDC(hwnd, dc);
             return Color.FromArgb((int)(pixel & 0x000000FF), (int)(pixel & 0x0000FF00) >> 8, (int)(pixel & 0x00FF0000) >> 16);
+        }
+
+        public static void SetTopMost()
+        {
+            IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;
+            SetWindowPos(hWnd, new IntPtr(HWND_TOPMOST), 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
         }
     }
 }

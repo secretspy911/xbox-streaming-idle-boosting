@@ -1,0 +1,4 @@
+﻿[*.{cs,vb}]
+
+# IDE0003: Supprimer une qualification
+dotnet_diagnostic.IDE0003.severity = none

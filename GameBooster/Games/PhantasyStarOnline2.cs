@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace XboxStreamingIdleBoosting.Games
+namespace GameBoosterNS.Games
 {
     class PhantasyStarOnline2 : XboxGame
     {

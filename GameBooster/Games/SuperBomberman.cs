@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 
-namespace XboxStreamingIdleBoosting.Games
+namespace GameBoosterNS.Games
 {
     class SuperBomberman : XboxGame
     {

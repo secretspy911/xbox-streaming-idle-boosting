@@ -61,7 +61,7 @@
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
             this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logTextBox.Size = new System.Drawing.Size(262, 395);
+            this.logTextBox.Size = new System.Drawing.Size(262, 21);
             this.logTextBox.TabIndex = 30;
             // 
             // controllerLogsCheckBox
@@ -110,7 +110,7 @@
             // 
             this.copyToClipboardLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.copyToClipboardLinkLabel.AutoSize = true;
-            this.copyToClipboardLinkLabel.Location = new System.Drawing.Point(13, 515);
+            this.copyToClipboardLinkLabel.Location = new System.Drawing.Point(13, 141);
             this.copyToClipboardLinkLabel.Name = "copyToClipboardLinkLabel";
             this.copyToClipboardLinkLabel.Size = new System.Drawing.Size(89, 13);
             this.copyToClipboardLinkLabel.TabIndex = 40;
@@ -143,7 +143,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(286, 539);
+            this.ClientSize = new System.Drawing.Size(286, 165);
             this.Controls.Add(this.ClearLogsbutton);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.copyToClipboardLinkLabel);

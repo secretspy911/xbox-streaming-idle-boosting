@@ -3,7 +3,7 @@ using System.Threading;
 using WindowsInput;
 using WindowsInput.Native;
 
-namespace XboxStreamingIdleBoosting
+namespace GameBoosterNS
 {
     public enum Direction
     {
