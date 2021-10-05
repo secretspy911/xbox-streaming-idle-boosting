@@ -51,6 +51,7 @@
     <Compile Include="Games\Game.cs" />
     <Compile Include="Games\PcGame.cs" />
     <Compile Include="Games\PhantasyStarOnline2.cs" />
+    <Compile Include="Games\SpeedRunners.cs" />
     <Compile Include="Games\SuperBomberman.cs" />
     <Compile Include="Games\XboxGame.cs" />
     <Compile Include="KeyLogger.cs" />

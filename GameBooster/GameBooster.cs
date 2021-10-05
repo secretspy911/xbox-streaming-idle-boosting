@@ -11,7 +11,8 @@ namespace GameBoosterNS
         {
             SuperBomberManRDestroyBlocks = 0,
             FinalFantasyIXRopeJumping = 1,
-            PhantasyStarOnline2 = 2
+            PhantasyStarOnline2 = 2,
+            SpeedRunners = 3
         }
 
         public delegate void LogEventHandler(string message);
@@ -22,7 +23,7 @@ namespace GameBoosterNS
         private CancellationToken cancellationToken;
 
         // TODO Make settings configurable by user
-        private const ScriptType scriptType = ScriptType.FinalFantasyIXRopeJumping;
+        private const ScriptType scriptType = ScriptType.SpeedRunners;
 
         public bool UseKeyLogger { get; set; }
         public KeyLogger KeyLogger;
@@ -49,6 +50,9 @@ namespace GameBoosterNS
                     break;
                 case ScriptType.PhantasyStarOnline2:
                     game = new PhantasyStarOnline2(cancellationToken);
+                    break;
+                case ScriptType.SpeedRunners:
+                    game = new SpeedRunners(cancellationToken);
                     break;
             }
 

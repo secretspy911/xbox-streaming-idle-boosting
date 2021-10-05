@@ -20,13 +20,15 @@ namespace GameBoosterNS
             A = 1,
             B = 2,
             X = 3,
-            Y = 4
+            Y = 4,
+            Start = 5
         }
 
         public VirtualKeyCode AButtonKey = VirtualKeyCode.VK_F;
         public VirtualKeyCode BButtonKey = VirtualKeyCode.VK_G;
         public VirtualKeyCode XButtonKey = VirtualKeyCode.VK_R;
         public VirtualKeyCode YButtonKey = VirtualKeyCode.VK_T;
+        public VirtualKeyCode StartButtonKey = VirtualKeyCode.VK_B;
         public VirtualKeyCode UpButtonKey = VirtualKeyCode.VK_W;
         public VirtualKeyCode DownButtonKey = VirtualKeyCode.VK_S;
         public VirtualKeyCode LeftButtonKey = VirtualKeyCode.VK_A;
@@ -59,6 +61,9 @@ namespace GameBoosterNS
                     break;
                 case Button.Y:
                     keyCode = YButtonKey;
+                    break;
+                case Button.Start:
+                    keyCode = StartButtonKey;
                     break;
                 default:
                     throw new NotImplementedException();
