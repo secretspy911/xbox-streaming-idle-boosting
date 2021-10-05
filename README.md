@@ -1,17 +1,15 @@
 # xbox-streaming-idle-boosting
 Allows idle boosting for certain games using Xbox One streaming app.
+The goal is to be able to win long and tedious achievements which are only wasting your time pressing the same inputs over and over again for endless hours.
+Watch the projet as I add new games from time to time when I have a new achievement to tackle.
 
-- Xbox controller key mapping
-Up: W
-Down: S
-Left: A
-Right: D
-A: J
-B: K
-X: U
-Y: I
-Start: Enter
-Back: Backspace
+Here are the supported games:
+- Phantasy Star Online 2 (Dart mini-game and story)
+- SpeedRunners (Exp farming)
+- SuperBomberman R (Destroy bombs and blocks)
+
+Work in progress:
+- Final Fantasy IX (Rope jumping)
 
 - SuperBomberman R
 - Block boosting
