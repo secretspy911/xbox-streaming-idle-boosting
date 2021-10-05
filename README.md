@@ -1,7 +1,7 @@
 # xbox-streaming-idle-boosting
 Allows idle boosting for certain games using Xbox One streaming app.
 The goal is to be able to win long and tedious achievements which are only wasting your time pressing the same inputs over and over again for endless hours.
-Watch the projet as I add new games from time to time when I have a new achievement to tackle.
+Watch the project as I add new games from time to time when I have a new achievement to tackle.
 
 Here are the supported games:
 - Phantasy Star Online 2 (Dart mini-game and story)
