@@ -29,3 +29,5 @@ Work in progress:
 - Special abilities : On
 - Map: The Great Wall (map with the most immuable blocks)
 - Players: 2 Player
+
+Here is a demo video for Bomberman.
