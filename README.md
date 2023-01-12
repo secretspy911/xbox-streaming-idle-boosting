@@ -30,4 +30,4 @@ Work in progress:
 - Map: The Great Wall (map with the most immuable blocks)
 - Players: 2 Player
 
-Here is a demo video for Bomberman.
+Here is a demo video for Bomberman: https://www.youtube.com/watch?v=8irrs4oM3vk&t=3s&ab_channel=secretspy911.
