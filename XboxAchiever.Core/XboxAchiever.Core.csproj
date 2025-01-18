@@ -96,7 +96,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameBooster.cs" />
+    <Compile Include="XboxAchiever.cs" />
     <Compile Include="Games\BaseClasses\Game.cs" />
     <Compile Include="Games\BaseClasses\PcGame.cs" />
     <Compile Include="Games\BaseClasses\XboxGame.cs" />
