@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XboxAchiever.WinApp", "XboxAchiever.WinApp\XboxAchiever.WinApp.csproj", "{B81B7083-229C-4B56-81B9-E78CF1C1DE22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11CE6BC3-DE29-4539-8F53-2824BBF2006C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XboxAchiever.Core", "XboxAchiever.Core\XboxAchiever.Core.csproj", "{35FE80D4-736C-4930-A6C5-43C01AEC6D36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XboxAchiever.ConsoleApp", "XboxAchiever.ConsoleApp\XboxAchiever.ConsoleApp.csproj", "{0AF1046E-1634-47E8-BC90-EEF410BF9470}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B81B7083-229C-4B56-81B9-E78CF1C1DE22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B81B7083-229C-4B56-81B9-E78CF1C1DE22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B81B7083-229C-4B56-81B9-E78CF1C1DE22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B81B7083-229C-4B56-81B9-E78CF1C1DE22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35FE80D4-736C-4930-A6C5-43C01AEC6D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35FE80D4-736C-4930-A6C5-43C01AEC6D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35FE80D4-736C-4930-A6C5-43C01AEC6D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35FE80D4-736C-4930-A6C5-43C01AEC6D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AF1046E-1634-47E8-BC90-EEF410BF9470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AF1046E-1634-47E8-BC90-EEF410BF9470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AF1046E-1634-47E8-BC90-EEF410BF9470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF1046E-1634-47E8-BC90-EEF410BF9470}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {524A61A9-9A45-4544-B76E-52440902C8B1}
+	EndGlobalSection
+EndGlobal
